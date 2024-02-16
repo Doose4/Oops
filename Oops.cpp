@@ -5,6 +5,7 @@
 
 using namespace std;
 
+//creates upper and lower bounds
 tuple<int, int> set_values(int YorN) {
     int upperbound;
     int lowerbound;
@@ -25,10 +26,11 @@ tuple<int, int> set_values(int YorN) {
 
 }
 
+//checks the input and returns if it is incorrect
 int check_input(int lower, int higher, int Userinput) {
     if ((Userinput < lower) || (Userinput > higher)) {
         cout << "The input wasn't correct, Please try again.\n";
-        return 0;
+        return 2;
     }
     else {
         cout << "Your input was: " << Userinput;
@@ -37,6 +39,7 @@ int check_input(int lower, int higher, int Userinput) {
 
 }
 
+//Takes the users input and moves it to the correct case
 void take_input(int lowerbound, int upperbound) {
     int Userinput, helper = 1;
     string stringinput;
@@ -56,21 +59,41 @@ void take_input(int lowerbound, int upperbound) {
             helper = check_input(lowerbound, upperbound, 100);
         }
         else {
-            helper = 0;
+            helper = 2;
         }
     }
 
-    if (helper == 0) {
+    if (helper == 2) {
         take_input(lowerbound, upperbound);
     }
 
 }
  
-
+//tests the different functions
 void Driver() {
+    cout << "starting test..." << endl;
+    cout << "\ttesting set values..." << endl;
+    int value1=0, value2=0;
+    tie(value1, value2) = set_values(1);
+    assert(value1== 1);
+    assert(value2 == 100);
     
+    cout << "\ttesting check input..." << endl;
+    value1 = check_input(1, 10, 2);
+    assert(value1 = 1);
+    value1 = check_input(1, 10, 0);
+    assert(value1 = 2);
+    value1 = check_input(1, 10, 1);
+    assert(value1 = 1);
+    value1 = check_input(1, 10, -100);
+    assert(value1 = 2);
+    value1 = check_input(1, 10, 100);
+    assert(value1 = 2);
+
+    cout << "completed Test!" << endl;
 }
 
+//main program
 int main()
 {
     int Userinput=1;
@@ -82,7 +105,12 @@ int main()
     cin.ignore(256, '\n');
     if (toupper(YorN) == 'Y') {
         tie(lowerbound, upperbound) = set_values(0);
-    } else {
+    }
+    else if (toupper(YorN) == 'T') {
+        Driver();
+        return 0;
+    }
+    else {
         tie(lowerbound, upperbound) = set_values(1);
     }
     
